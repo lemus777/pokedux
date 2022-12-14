@@ -3,8 +3,8 @@ import { Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemon, getPokemonDetails } from './api';
-import { setPokemons } from './actions/index'
+import { getPokemon } from './api';
+import { getPokemonsWithDetails } from './actions/index'
 import logo from './statics/logo.svg';
 import './App.css';
 
@@ -16,8 +16,7 @@ function App() {
   useEffect(() => {
     const fetchPokemons = async () => {
       const pokemonsRes = await getPokemon(); // llamamos de forma asíncrona a nuestra función de consulta axios a la api
-      const pokemonsDetailed = await Promise.all(pokemonsRes.map(pokemon => getPokemonDetails(pokemon)));
-      dispatch(setPokemons(pokemonsDetailed))
+      dispatch(getPokemonsWithDetails(pokemonsRes))
     };
 
     fetchPokemons();
