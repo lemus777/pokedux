@@ -1,11 +1,20 @@
 import PokemonCard from "./PokemonCard";
 import './PokemonList.css';
 
-const PokemonList = ({ pokemons }) => {
+const PokemonList = ({ pokemons }) => { // pokemons lo obtiene de nuestro estado en el reducer
   return (
     <div className="PokemonList">
       {pokemons.map((pokemon) => {
-        return <PokemonCard name={pokemon.name} key={pokemon.name} image={pokemon.sprites.front_default} />
+        return (
+          <PokemonCard // las siguientes propiedades salen del objeto devuelto por el fetch que está guardado en el estado pokemons y es mapeado
+            name={pokemon.name} 
+            key={pokemon.name} 
+            image={pokemon.sprites.front_default}
+            types={pokemon.types}
+            id={pokemon.id}
+            favorite={pokemon.favorite}
+          />
+        );
       })}
     </div>
   );
