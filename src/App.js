@@ -9,9 +9,8 @@ import logo from './statics/logo.svg';
 import './App.css';
 
 function App() {
-
-  const pokemons = useSelector(state => state.pokemons);
-  const loading = useSelector(state => state.loading);
+  const pokemons = useSelector(state => state.get('pokemons')).toJS(); // hay que usar toJS() porque immutable trabaja con estructura de datos, y nosotros necesitamos un objeto plano, por eso lo transformamos así
+  const loading = useSelector(state => state.get('loading')); // aqui no usamos toJS() porque el valor de loading no es un objeto, es un booleano
   const dispatch = useDispatch();
 
   useEffect(() => {
