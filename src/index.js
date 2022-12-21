@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { pokemonsReducer } from './reducers/pokemons';
+import rootReducer from './reducers/rootReducer';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -14,7 +14,7 @@ const composeAlt = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const composedEnhancers = composeAlt(applyMiddleware(thunk, logger)) // enhancers para el middleware
 
-const store = createStore(pokemonsReducer, composedEnhancers); // nuestro create store con los potenciadores de enhancers aplicados
+const store = createStore(rootReducer, composedEnhancers); // nuestro create store con los potenciadores de enhancers aplicados
 
 root.render(
   <React.StrictMode>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Col, Spin } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
 import { getPokemon } from './api';
@@ -9,8 +9,8 @@ import logo from './statics/logo.svg';
 import './App.css';
 
 function App() {
-  const pokemons = useSelector(state => state.get('pokemons')).toJS(); // hay que usar toJS() porque immutable trabaja con estructura de datos, y nosotros necesitamos un objeto plano, por eso lo transformamos así
-  const loading = useSelector(state => state.get('loading')); // aqui no usamos toJS() porque el valor de loading no es un objeto, es un booleano
+  const pokemons = useSelector(state => state.getIn(['data', 'pokemons'], shallowEqual)).toJS(); // hay que usar toJS() porque immutable trabaja con estructura de datos, y nosotros necesitamos un objeto plano, por eso lo transformamos así. shallowEqual evita rerenders innecesarios
+  const loading = useSelector(state => state.getIn(['ui','loading'])); // aqui no usamos toJS() porque el valor de loading no es un objeto, es un booleano
   const dispatch = useDispatch();
 
   useEffect(() => {
