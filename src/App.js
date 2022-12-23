@@ -3,25 +3,17 @@ import { Col, Spin } from 'antd';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemon } from './api';
-import { getPokemonsWithDetails, setLoading } from './actions/index'
+import { fetchPokemonsWithDetails } from './slices/dataSlice';
 import logo from './statics/logo.svg';
 import './App.css';
 
 function App() {
-  const pokemons = useSelector(state => state.getIn(['data', 'pokemons'], shallowEqual)).toJS(); // hay que usar toJS() porque immutable trabaja con estructura de datos, y nosotros necesitamos un objeto plano, por eso lo transformamos así. shallowEqual evita rerenders innecesarios
-  const loading = useSelector(state => state.getIn(['ui','loading'])); // aqui no usamos toJS() porque el valor de loading no es un objeto, es un booleano
+  const pokemons = useSelector(state => state.data.pokemons, shallowEqual); // shallowEqual evita rerenders innecesarios
+  const loading = useSelector(state => state.ui.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPokemons = async () => {
-      dispatch(setLoading(true));
-      const pokemonsRes = await getPokemon(); // llamamos de forma asíncrona a nuestra función de consulta axios a la api
-      dispatch(getPokemonsWithDetails(pokemonsRes));
-      dispatch(setLoading(false));
-    };
-
-    fetchPokemons();
+    dispatch(fetchPokemonsWithDetails());
   }, []);
 
   return (
